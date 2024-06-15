@@ -11,7 +11,8 @@ const App = () => {
 
   useEffect(()=> {
     dispatch(fetchContacts())
-  })
+  }, [dispatch]);
+
   return (
     <div className={css.container}>
       <h1 className={css.title}>Phonebook</h1>
