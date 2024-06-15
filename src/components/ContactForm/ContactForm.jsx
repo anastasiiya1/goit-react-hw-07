@@ -3,7 +3,7 @@ import { useId } from 'react';
 import * as Yup from 'yup';
 import css from './ContactForm.module.css';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsSlice';
+import { addNewContact } from '../../redux/contactsOps';
 
 const initialValue = {
   name: '',
@@ -18,7 +18,7 @@ const ContactSchema = Yup.object().shape({
   number: Yup.string()
     .matches(
       /^\d{3}-\d{2}-\d{2}$/,
-      'Invalid phone number! Enter the number in the format 000-00-00'
+      'Invalid phone number! Enter the number in the format 000-00-00',
     )
     .required('Phone number is required!'),
 });
@@ -29,10 +29,7 @@ function ContactForm() {
   const numberField = useId();
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact({
-      id: Date.now().toString(),
-      ...values,
-    }));
+    dispatch(addNewContact(values));
     actions.resetForm();
   };
 
@@ -43,7 +40,9 @@ function ContactForm() {
       validationSchema={ContactSchema}
     >
       <Form className={css.form}>
-        <label htmlFor={nameField} className={css.label}>Name</label>
+        <label htmlFor={nameField} className={css.label}>
+          Name
+        </label>
         <Field
           type="text"
           name="name"
@@ -53,7 +52,9 @@ function ContactForm() {
         />
         <ErrorMessage className={css.error} name="name" component="span" />
 
-        <label htmlFor={numberField} className={css.label}>Number</label>
+        <label htmlFor={numberField} className={css.label}>
+          Number
+        </label>
         <Field
           type="text"
           name="number"
@@ -63,11 +64,12 @@ function ContactForm() {
         />
         <ErrorMessage className={css.error} name="number" component="span" />
 
-        <button type="submit" className={css.button}>Add contact</button>
+        <button type="submit" className={css.button}>
+          Add contact
+        </button>
       </Form>
     </Formik>
   );
 }
-
 
 export default ContactForm;
